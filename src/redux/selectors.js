@@ -4,6 +4,8 @@ export const getRequiredDrawbacks = (state) => state.get("requiredDrawbacks");
 
 export const getOutline = (state) => state.get("outline");
 
+export const getLocation = (state) => state.get("location");
+
 export const getSections = createSelector(getOutline, (outline) => {
   return outline.get("sections");
 });
@@ -20,5 +22,25 @@ export const getSectionTitlesArray = createSelector(
       accumulator.push({ title: curr, link: key });
       return accumulator;
     }, []);
+  }
+);
+
+export const getPreviousAndNextSection = createSelector(
+  [getSectionTitlesArray, getLocation],
+  (sections, location) => {
+    const index = sections.findIndex((val) => {
+      return val.link === location;
+    });
+    return [
+      sections[index - 1] ? sections[index - 1] : sections[sections.length - 1],
+      sections[index + 1] ? sections[index + 1] : sections[0],
+    ];
+  }
+);
+
+export const getLocationData = createSelector(
+  [getLocation, getSections],
+  (location, sections) => {
+    return sections.get(location);
   }
 );
