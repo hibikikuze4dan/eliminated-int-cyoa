@@ -1,10 +1,13 @@
 import { createSelector } from "reselect";
+import { List } from "immutable";
 
 export const getRequiredDrawbacks = (state) => state.get("requiredDrawbacks");
 
 export const getOutline = (state) => state.get("outline");
 
 export const getLocation = (state) => state.get("location");
+
+export const getChoices = (state) => state.get("choices");
 
 export const getSections = createSelector(getOutline, (outline) => {
   return outline.get("sections");
@@ -42,5 +45,19 @@ export const getLocationData = createSelector(
   [getLocation, getSections],
   (location, sections) => {
     return sections.get(location);
+  }
+);
+
+export const getLocationChoices = createSelector(
+  [getLocation, getChoices],
+  (location, choices) => {
+    return choices.get(location, List([]));
+  }
+);
+
+export const getLocationChoicesNames = createSelector(
+  [getLocationChoices],
+  (choices) => {
+    return choices.toJS().map((choice) => choice.title);
   }
 );

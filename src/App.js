@@ -26,7 +26,7 @@ function App({ sections }) {
                 key={`app-route-${section.link}`}
                 path={`/${section.link}`}
               >
-                <Page />
+                <Page location={section.link} />
               </Route>
             );
           })}
