@@ -1,7 +1,8 @@
 import isEqual from "lodash/isEqual";
 import sum from "lodash/sum";
 
-import { getLocationChoices, getLocation } from "./selectors";
+import { getLocationChoices, getLocation, getDrawbacks } from "./selectors";
+import { map } from "lodash";
 
 const updateChoiceSection = (state, section, updatedChoices) => {
   return state.set(
@@ -62,8 +63,13 @@ export const expAccUpdate = (state, choice) => {
   const currentChoices = getLocationChoices(state);
   const relevantDrawback = getRelevantDrawback(state, choice);
   const includes = isEqual(currentChoices.toJS()[0], choice);
+  const currentDrawbacks = getDrawbacks(state)
+    .toJS()
+    .map((drawback) => drawback.title);
+
   let otherRelevantDrawback = null;
   let updatedChoices = null;
+
   if (includes) {
     updatedChoices = currentChoices.pop();
   } else {
@@ -73,6 +79,7 @@ export const expAccUpdate = (state, choice) => {
     );
     updatedChoices = currentChoices.pop().push(choice);
   }
+
   let updatedState = updateChoiceSection(state, location, updatedChoices);
   if (otherRelevantDrawback) {
     updatedState = multiChoiceUpdate(
@@ -82,6 +89,9 @@ export const expAccUpdate = (state, choice) => {
     );
   }
 
+  if (currentDrawbacks.includes(relevantDrawback.title)) {
+    return updatedState;
+  }
   return multiChoiceUpdate(updatedState, relevantDrawback, "drawbacks");
 };
 
