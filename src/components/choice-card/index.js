@@ -5,6 +5,8 @@ import Interweave from "interweave";
 const ChoiceCard = ({ data, handleClick, picked, disabled }) => {
   const buttonStyles = {
     backgroundColor: picked ? "green" : "inherit",
+    textTransform: "none",
+    height: "100%",
   };
 
   return (

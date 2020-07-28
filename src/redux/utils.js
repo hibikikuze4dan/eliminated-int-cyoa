@@ -24,6 +24,10 @@ export const singleChoiceUpdate = (state, choice) => {
   return updateChoiceSection(state, location, updatedChoices);
 };
 
+export const getAmountOfDrawbacksTaken = (state) => {
+  return state.get("choices").get("drawbacks").toJS().length;
+};
+
 export const multiChoiceUpdate = (state, choice, choiceType = "") => {
   if (!choice) {
     return state;
@@ -110,7 +114,9 @@ export const multiSectionUpdate = (state, choice) => {
   }, []);
   const updatedState = newState.set(
     "requiredDrawbacks",
-    newState.get("initRequiredDrawbacks") + sum(values)
+    newState.get("initRequiredDrawbacks") +
+      sum(values) -
+      getAmountOfDrawbacksTaken(newState)
   );
   return updatedState;
 };
