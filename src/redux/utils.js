@@ -1,4 +1,5 @@
 import isEqual from "lodash/isEqual";
+import sum from "lodash/sum";
 
 import { getLocationChoices, getLocation } from "./selectors";
 
@@ -22,11 +23,11 @@ export const singleChoiceUpdate = (state, choice) => {
   return updateChoiceSection(state, location, updatedChoices);
 };
 
-export const multiChoiceUpdate = (state, choice, choiceType) => {
+export const multiChoiceUpdate = (state, choice, choiceType = "") => {
   if (!choice) {
     return state;
   }
-  const location = choiceType || getLocation(state);
+  const location = choiceType ? choiceType : getLocation(state);
   const currentChoices = state.get("choices").get(location);
   const index = currentChoices.findIndex((currentChoice) => {
     return currentChoice.title === choice.title;
@@ -80,6 +81,26 @@ export const expAccUpdate = (state, choice) => {
       "drawbacks"
     );
   }
-  console.log(relevantDrawback);
+
   return multiChoiceUpdate(updatedState, relevantDrawback, "drawbacks");
+};
+
+export const multiSectionUpdate = (state, choice) => {
+  const newState = multiChoiceUpdate(state, choice);
+  const values = newState.get("choices").reduce((acc, curr, ind) => {
+    let accumulator = acc;
+    if (["perks_and_powers", "companions", "other_stuff"].includes(ind)) {
+      if (curr.size > 3) {
+        accumulator.push(-3 + curr.size);
+      } else {
+        accumulator.push(0);
+      }
+    }
+    return accumulator;
+  }, []);
+  const updatedState = newState.set(
+    "requiredDrawbacks",
+    newState.get("initRequiredDrawbacks") + sum(values)
+  );
+  return updatedState;
 };

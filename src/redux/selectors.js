@@ -61,3 +61,36 @@ export const getLocationChoicesNames = createSelector(
     return choices.toJS().map((choice) => choice.title);
   }
 );
+
+export const getExpressionAndAccentChoices = createSelector(
+  [getChoices],
+  (choices) => {
+    return choices.get("expression").concat(choices.get("accent"));
+  }
+);
+
+export const getDrawbacks = createSelector([getChoices], (choices) => {
+  return choices.get("drawbacks");
+});
+
+export const getDisabledDrawbacks = createSelector(
+  [getExpressionAndAccentChoices, getDrawbacks],
+  (relevantChoices, drawbacks) => {
+    const requiredDrawbacks = relevantChoices.reduce((acc, curr) => {
+      const accumulator = acc;
+      if (curr?.drawback) {
+        accumulator.push(curr?.drawback);
+      }
+      return accumulator;
+    }, []);
+    return drawbacks
+      .filter((drawback) => {
+        return requiredDrawbacks.includes(drawback.title);
+      })
+      .reduce((curr, acc) => {
+        const accumulator = curr;
+        accumulator.push(acc.title);
+        return accumulator;
+      }, []);
+  }
+);

@@ -1,6 +1,6 @@
 import { fromJS, isKeyed } from "immutable";
 import cyoaText from "../data";
-import { singleChoiceUpdate, expAccUpdate } from "./utils";
+import { singleChoiceUpdate, expAccUpdate, multiSectionUpdate } from "./utils";
 
 const initialState = fromJS(
   {
@@ -8,8 +8,8 @@ const initialState = fromJS(
       ? window.location.href.split("/").pop()
       : "opening",
     outline: cyoaText.default,
-    initRequiredDrawbacks: 3,
-    requiredDrawbacks: 3,
+    initRequiredDrawbacks: 5,
+    requiredDrawbacks: 5,
     choices: {
       gender: [],
       intelligence: [],
@@ -60,6 +60,12 @@ const singleChoiceSections = [
 
 const expressionAndAccent = ["UPDATE_EXPRESSION", "UPDATE_ACCENT"];
 
+const multiChoiceSections = [
+  "UPDATE_COMPANIONS",
+  "UPDATE_PERKS_AND_POWERS",
+  "UPDATE_OTHER_STUFF",
+];
+
 export const rootReducer = (state = initialState, action) => {
   if (action.type === "UPDATE_LOCATION") {
     return state.set("location", action.payload);
@@ -67,6 +73,10 @@ export const rootReducer = (state = initialState, action) => {
     return singleChoiceUpdate(state, action.payload);
   } else if (expressionAndAccent.includes(action.type)) {
     return expAccUpdate(state, action.payload);
+  } else if (multiChoiceSections.includes(action.type)) {
+    return multiSectionUpdate(state, action.payload);
+  } else if (action.type === "UPDATE_DRAWBACKS") {
+    return multiSectionUpdate(state, action.payload);
   }
   return state;
 };

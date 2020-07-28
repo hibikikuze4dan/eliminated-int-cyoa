@@ -1,10 +1,13 @@
 import React, { Fragment } from "react";
 import { GridList, withWidth, GridListTile } from "@material-ui/core";
-import { map } from "lodash";
+import { map, isEqual } from "lodash";
 import { connect } from "react-redux";
 
 import ChoiceCard from "../choice-card";
-import { getLocationChoicesNames } from "../../redux/selectors";
+import {
+  getLocationChoicesNames,
+  getDisabledDrawbacks,
+} from "../../redux/selectors";
 
 const columns = {
   xs: 1,
@@ -20,6 +23,7 @@ const ChoiceList = ({
   handleClick,
   location,
   locationChoices,
+  disabledDrawbacks,
 }) => {
   return (
     <Fragment>
@@ -32,6 +36,7 @@ const ChoiceList = ({
                 handleClick={handleClick}
                 location={location}
                 picked={locationChoices.includes(choice.title)}
+                disabled={disabledDrawbacks.includes(choice.title)}
               />
             </GridListTile>
           );
@@ -44,6 +49,7 @@ const ChoiceList = ({
 const mapStateToProps = (state) => {
   return {
     locationChoices: getLocationChoicesNames(state),
+    disabledDrawbacks: getDisabledDrawbacks(state),
   };
 };
 
