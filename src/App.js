@@ -12,6 +12,7 @@ import {
 import { getSectionTitlesArray } from "./redux/selectors";
 import { connect } from "react-redux";
 import Page from "./components/page";
+import { Divider } from "@material-ui/core";
 
 function App({ sections }) {
   return (
@@ -19,6 +20,7 @@ function App({ sections }) {
       <Router>
         <Navigator />
         <ArrowNav />
+        <Divider style={{ margin: "0 16px" }} />
         <Switch>
           {sections.map((section) => {
             return (
@@ -32,6 +34,7 @@ function App({ sections }) {
           })}
           <Route render={() => <Redirect to="/opening" />} />
         </Switch>
+        <Divider style={{ margin: "0 16px" }} />
         <ArrowNav />
       </Router>
     </div>

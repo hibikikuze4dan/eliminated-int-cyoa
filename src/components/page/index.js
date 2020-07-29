@@ -10,13 +10,14 @@ import { sectionActions, updateLocation } from "../../redux/actions";
 
 const Page = ({ data, handleClick, location, updateLocation }) => {
   const quickLinks = (
-    <Grid item xs={12}>
+    <Grid item xs={12} style={{ padding: "16px 0" }}>
       <Grid container>
         <Grid item xs={6}>
           <Button
             component={Link}
             to="/expression"
             onClick={() => updateLocation("expression")}
+            variant="contained"
           >
             Expression
           </Button>
@@ -26,6 +27,7 @@ const Page = ({ data, handleClick, location, updateLocation }) => {
             component={Link}
             to="/accent"
             onClick={() => updateLocation("accent")}
+            variant="contained"
           >
             Accent
           </Button>
@@ -35,22 +37,23 @@ const Page = ({ data, handleClick, location, updateLocation }) => {
   );
 
   return (
-    <Grid container>
+    <Grid container style={{ padding: "0 16px" }}>
       <Grid item xs={12}>
-        <Typography>{data.get("title")}</Typography>
+        <Typography variant="h3">{data.get("title")}</Typography>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} style={{ padding: "16px 0" }}>
         <Typography>
           <Interweave content={data.get("description")} />
         </Typography>
       </Grid>
       {location === "drawbacks" && quickLinks}
       {["accent", "expression"].includes(location) && (
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ padding: "16px 0" }}>
           <Button
             component={Link}
             to="/drawbacks"
             onClick={() => updateLocation("drawbacks")}
+            variant="contained"
           >
             Drawbacks
           </Button>
@@ -67,11 +70,12 @@ const Page = ({ data, handleClick, location, updateLocation }) => {
       </Grid>
       {location === "drawbacks" && quickLinks}
       {["accent", "expression"].includes(location) && (
-        <Grid item xs={12}>
+        <Grid item xs={12} style={{ padding: "16px 0" }}>
           <Button
             component={Link}
             to="/drawbacks"
             onClick={() => updateLocation("drawbacks")}
+            variant="contained"
           >
             Drawbacks
           </Button>

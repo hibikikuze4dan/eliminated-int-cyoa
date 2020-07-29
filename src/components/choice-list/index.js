@@ -31,7 +31,12 @@ const ChoiceList = ({
         cols={columns[width]}
         cellHeight="auto"
         spacing={16}
-        style={{ width: "100%" }}
+        style={{
+          width: "100%",
+          margin: 0,
+          justifyContent: "space-evenly",
+          padding: "16px 0",
+        }}
       >
         {map(choices.toJS(), (choice, index) => {
           return (
