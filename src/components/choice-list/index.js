@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { GridList, withWidth, GridListTile } from "@material-ui/core";
-import { map, isEqual } from "lodash";
+import { map } from "lodash";
 import { connect } from "react-redux";
 
 import ChoiceCard from "../choice-card";

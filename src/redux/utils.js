@@ -2,7 +2,6 @@ import isEqual from "lodash/isEqual";
 import sum from "lodash/sum";
 
 import { getLocationChoices, getLocation, getDrawbacks } from "./selectors";
-import { map } from "lodash";
 
 const updateChoiceSection = (state, section, updatedChoices) => {
   return state.set(

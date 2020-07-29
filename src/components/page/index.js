@@ -1,14 +1,39 @@
-import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import React, { Fragment } from "react";
+import { Grid, Typography, Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import Interweave from "interweave";
+import { Link } from "react-router-dom";
 
 import { getLocationData } from "../../redux/selectors";
 import ChoiceList from "../choice-list";
-import { sectionActions } from "../../redux/actions";
+import { sectionActions, updateLocation } from "../../redux/actions";
 
-const Page = ({ data, handleClick, location }) => {
-  console.log(location, handleClick);
+const Page = ({ data, handleClick, location, updateLocation }) => {
+  const quickLinks = (
+    <Grid item xs={12}>
+      <Grid container>
+        <Grid item xs={6}>
+          <Button
+            component={Link}
+            to="/expression"
+            onClick={() => updateLocation("expression")}
+          >
+            Expression
+          </Button>
+        </Grid>
+        <Grid item xs={6}>
+          <Button
+            component={Link}
+            to="/accent"
+            onClick={() => updateLocation("accent")}
+          >
+            Accent
+          </Button>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -19,6 +44,18 @@ const Page = ({ data, handleClick, location }) => {
           <Interweave content={data.get("description")} />
         </Typography>
       </Grid>
+      {location === "drawbacks" && quickLinks}
+      {["accent", "expression"].includes(location) && (
+        <Grid item xs={12}>
+          <Button
+            component={Link}
+            to="/drawbacks"
+            onClick={() => updateLocation("drawbacks")}
+          >
+            Drawbacks
+          </Button>
+        </Grid>
+      )}
       <Grid item xs={12}>
         {data.get("choices") && (
           <ChoiceList
@@ -28,6 +65,18 @@ const Page = ({ data, handleClick, location }) => {
           />
         )}
       </Grid>
+      {location === "drawbacks" && quickLinks}
+      {["accent", "expression"].includes(location) && (
+        <Grid item xs={12}>
+          <Button
+            component={Link}
+            to="/drawbacks"
+            onClick={() => updateLocation("drawbacks")}
+          >
+            Drawbacks
+          </Button>
+        </Grid>
+      )}
     </Grid>
   );
 };
@@ -40,6 +89,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   console.log(dispatch, ownProps);
   return {
     handleClick: (data) => dispatch(sectionActions[ownProps?.location](data)),
+    updateLocation: (data) => dispatch(updateLocation(data)),
   };
 };
 
