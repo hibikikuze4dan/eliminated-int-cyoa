@@ -1,6 +1,13 @@
 import React from "react";
-import { Button, Card, Grid, Typography } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  Grid,
+  Typography,
+  CircularProgress,
+} from "@material-ui/core";
 import Interweave from "interweave";
+import { Img } from "react-image";
 
 const ChoiceCard = ({ data, handleClick, picked, disabled }) => {
   const buttonStyles = {
@@ -8,6 +15,19 @@ const ChoiceCard = ({ data, handleClick, picked, disabled }) => {
     textTransform: "none",
     height: "100%",
   };
+
+  const imageSection = (
+    <Grid item xs={12}>
+      <Grid container justify="center">
+        <Img
+          style={{ height: "300px", width: "100%", objectFit: "fill" }}
+          src={data.src}
+          loader={<CircularProgress />}
+          unloader={<CircularProgress />}
+        />
+      </Grid>
+    </Grid>
+  );
 
   return (
     <Button
@@ -17,6 +37,7 @@ const ChoiceCard = ({ data, handleClick, picked, disabled }) => {
       style={buttonStyles}
     >
       <Grid container>
+        {imageSection}
         <Grid item xs={12}>
           <Typography>{data.title}</Typography>
         </Grid>

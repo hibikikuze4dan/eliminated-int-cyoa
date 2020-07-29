@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Grid, Typography, Button } from "@material-ui/core";
 import { connect } from "react-redux";
 import Interweave from "interweave";

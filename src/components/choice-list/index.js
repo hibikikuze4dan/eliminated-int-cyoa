@@ -27,7 +27,12 @@ const ChoiceList = ({
 }) => {
   return (
     <Fragment>
-      <GridList cols={columns[width]} cellHeight="auto" spacing={16}>
+      <GridList
+        cols={columns[width]}
+        cellHeight="auto"
+        spacing={16}
+        style={{ width: "100%" }}
+      >
         {map(choices.toJS(), (choice, index) => {
           return (
             <GridListTile key={`grid-list-${choice.title}-${index}`}>
