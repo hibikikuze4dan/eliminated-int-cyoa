@@ -11,7 +11,7 @@
     "classnames": "^2.2.6",
     "immutable": "^4.0.0-rc.12",
     "interweave": "^12.5.0",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-image": "^4.0.3",
